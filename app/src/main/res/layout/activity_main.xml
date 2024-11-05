@@ -34,7 +34,7 @@
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/switch_favorites"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginEnd="10dp"
         android:text="Fav"
         app:layout_constraintBottom_toTopOf="@id/gl_h15"
@@ -114,7 +114,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/iv_thumbnail1" />
 
-                    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                    <Button
                         android:id="@+id/bt_favorite1"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
@@ -127,9 +127,9 @@
                         android:textStyle="bold"
                         app:layout_constraintDimensionRatio="1:1"
                         app:layout_constraintEnd_toEndOf="@id/iv_thumbnail1"
-                        app:layout_constraintHeight_max="32dp"
+                        app:layout_constraintHeight_max="50dp"
                         app:layout_constraintTop_toTopOf="@id/iv_thumbnail1"
-                        app:layout_constraintWidth_max="32dp" />
+                        app:layout_constraintWidth_max="50dp"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
@@ -172,7 +172,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/iv_thumbnail2" />
 
-                    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                    <Button
                         android:id="@+id/bt_favorite2"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
@@ -185,9 +185,9 @@
                         android:textStyle="bold"
                         app:layout_constraintDimensionRatio="1:1"
                         app:layout_constraintEnd_toEndOf="@id/iv_thumbnail2"
-                        app:layout_constraintHeight_max="32dp"
+                        app:layout_constraintHeight_max="50dp"
                         app:layout_constraintTop_toTopOf="@id/iv_thumbnail2"
-                        app:layout_constraintWidth_max="32dp" />
+                        app:layout_constraintWidth_max="50dp"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
@@ -230,7 +230,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/iv_thumbnail3" />
 
-                    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                    <Button
                         android:id="@+id/bt_favorite3"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
@@ -243,9 +243,9 @@
                         android:textStyle="bold"
                         app:layout_constraintDimensionRatio="1:1"
                         app:layout_constraintEnd_toEndOf="@id/iv_thumbnail3"
-                        app:layout_constraintHeight_max="32dp"
+                        app:layout_constraintHeight_max="50dp"
                         app:layout_constraintTop_toTopOf="@id/iv_thumbnail3"
-                        app:layout_constraintWidth_max="32dp" />
+                        app:layout_constraintWidth_max="50dp"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
@@ -288,7 +288,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/iv_thumbnail4" />
 
-                    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                    <Button
                         android:id="@+id/bt_favorite4"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
@@ -301,9 +301,9 @@
                         android:textStyle="bold"
                         app:layout_constraintDimensionRatio="1:1"
                         app:layout_constraintEnd_toEndOf="@id/iv_thumbnail4"
-                        app:layout_constraintHeight_max="32dp"
+                        app:layout_constraintHeight_max="50dp"
                         app:layout_constraintTop_toTopOf="@id/iv_thumbnail4"
-                        app:layout_constraintWidth_max="32dp" />
+                        app:layout_constraintWidth_max="50dp"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
@@ -311,7 +311,7 @@
 
     </ScrollView>
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+    <Button
         android:id="@+id/bt_create"
         android:layout_width="0dp"
         android:layout_height="0dp"

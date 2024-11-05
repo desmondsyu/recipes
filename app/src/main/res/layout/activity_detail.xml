@@ -10,7 +10,7 @@
         android:layout_height="0dp"
         android:background="#f58742"
         android:contentDescription="background"
-        app:layout_constraintBottom_toTopOf="@id/gl_h5"
+        app:layout_constraintBottom_toTopOf="@id/gl_h10"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,7 +22,7 @@
         android:layout_margin="3dp"
         android:background="@drawable/circular_button_grey"
         android:text="Save"
-        app:layout_constraintBottom_toTopOf="@+id/gl_h5"
+        app:layout_constraintBottom_toTopOf="@+id/gl_h10"
         app:layout_constraintRight_toLeftOf="@id/bt_favorite"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,18 +33,17 @@
         android:layout_margin="3dp"
         android:background="@drawable/circular_button_white"
         android:text="♥"
-        app:layout_constraintBottom_toBottomOf="@id/gl_h5"
-        app:layout_constraintBottom_toTopOf="@+id/gl_h5"
+        app:layout_constraintBottom_toTopOf="@+id/gl_h10"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/gl_h5"
+        android:id="@+id/gl_h10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.05" />
+        app:layout_constraintGuide_percent="0.10" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -52,7 +51,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/gl_h5">
+        app:layout_constraintTop_toBottomOf="@id/gl_h10">
 
 
     <LinearLayout
@@ -64,7 +63,7 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/gl_h5">
+        app:layout_constraintTop_toBottomOf="@id/gl_h10">
 
         <ImageView
             android:id="@+id/iv_thumbnail"
@@ -94,7 +93,7 @@
             <Spinner
                 android:id="@+id/sp_category"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="1"
                 android:hint="Category"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -154,16 +153,16 @@
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/gl_v401"
+                    app:layout_constraintEnd_toStartOf="@id/gl_v351"
                     app:layout_constraintStart_toEndOf="@id/gl_v101"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/gl_v401"
+                    android:id="@+id/gl_v351"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.40" />
+                    app:layout_constraintGuide_percent="0.35" />
 
                 <EditText
                     android:id="@+id/et_ingredient1"
@@ -171,16 +170,16 @@
                     android:layout_height="0dp"
                     android:hint="Ingredient"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/gl_v801"
-                    app:layout_constraintStart_toEndOf="@id/gl_v401"
+                    app:layout_constraintEnd_toStartOf="@id/gl_v701"
+                    app:layout_constraintStart_toEndOf="@id/gl_v351"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/gl_v801"
+                    android:id="@+id/gl_v701"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.80" />
+                    app:layout_constraintGuide_percent="0.70" />
 
                 <Button
                     android:id="@+id/bt_minus1"
@@ -191,16 +190,16 @@
                     android:text="-"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintDimensionRatio="1:1"
-                    app:layout_constraintEnd_toStartOf="@id/gl_v901"
-                    app:layout_constraintStart_toEndOf="@id/gl_v801"
+                    app:layout_constraintEnd_toStartOf="@id/gl_v851"
+                    app:layout_constraintStart_toEndOf="@id/gl_v701"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/gl_v901"
+                    android:id="@+id/gl_v851"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.90" />
+                    app:layout_constraintGuide_percent="0.85" />
 
                 <Button
                     android:id="@+id/bt_plus1"
@@ -212,7 +211,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/gl_v901"
+                    app:layout_constraintStart_toEndOf="@id/gl_v851"
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -246,16 +245,16 @@
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/gl_v402"
+                    app:layout_constraintEnd_toStartOf="@id/gl_v352"
                     app:layout_constraintStart_toEndOf="@id/gl_v102"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/gl_v402"
+                    android:id="@+id/gl_v352"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.40" />
+                    app:layout_constraintGuide_percent="0.35" />
 
                 <EditText
                     android:id="@+id/et_ingredient2"
@@ -263,16 +262,16 @@
                     android:layout_height="0dp"
                     android:hint="Ingredient"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/gl_v802"
-                    app:layout_constraintStart_toEndOf="@id/gl_v402"
+                    app:layout_constraintEnd_toStartOf="@id/gl_v702"
+                    app:layout_constraintStart_toEndOf="@id/gl_v352"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/gl_v802"
+                    android:id="@+id/gl_v702"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.80" />
+                    app:layout_constraintGuide_percent="0.70" />
 
                 <Button
                     android:id="@+id/bt_minus2"
@@ -283,16 +282,16 @@
                     android:text="-"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintDimensionRatio="1:1"
-                    app:layout_constraintEnd_toStartOf="@id/gl_v902"
-                    app:layout_constraintStart_toEndOf="@id/gl_v802"
+                    app:layout_constraintEnd_toStartOf="@id/gl_v852"
+                    app:layout_constraintStart_toEndOf="@id/gl_v702"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/gl_v902"
+                    android:id="@+id/gl_v852"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.90" />
+                    app:layout_constraintGuide_percent="0.85" />
 
                 <Button
                     android:id="@+id/bt_plus2"
@@ -304,7 +303,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/gl_v902"
+                    app:layout_constraintStart_toEndOf="@id/gl_v852"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 <!--        </LinearLayout>-->
