@@ -43,86 +43,78 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.10" />
+        app:layout_constraintGuide_percent="0.06" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_margin="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/gl_h10">
 
 
-    <LinearLayout
-        android:id="@+id/ll_recipe_detail"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="20dp"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/gl_h10">
-
-        <ImageView
-            android:id="@+id/iv_thumbnail"
+        <LinearLayout
+            android:id="@+id/ll_recipe_detail"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="#f58742"
-            android:contentDescription="thumbnail"
-            android:scaleType="centerCrop"
-            android:src="@drawable/banner" />
+            android:layout_height="match_parent"
+            android:layout_margin="20dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/iv_thumbnail"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="#f58742"
+                android:contentDescription="thumbnail"
+                android:scaleType="centerCrop"
+                android:src="@drawable/banner" />
 
-            <EditText
-                android:id="@+id/et_title"
-                android:layout_width="0dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/et_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Recipe Title"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/sp_category"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Spinner
+                    android:id="@+id/sp_category"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:hint="Category"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/et_title"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/tv_ingredient"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Recipe Title"
-                android:textSize="24sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/sp_category"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_marginTop="20dp"
+                android:text="Ingredients"
+                android:textSize="24sp" />
 
-            <Spinner
-                android:id="@+id/sp_category"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:hint="Category"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/et_title"
-                app:layout_constraintTop_toTopOf="parent" />
+            <!--        <androidx.recyclerview.widget.RecyclerView-->
+            <!--            android:id="@+id/rv_ingredient"-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:layout_marginTop="10dp" />-->
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <TextView
-            android:id="@+id/tv_ingredient"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Ingredients"
-            android:textSize="24sp" />
-
-        <!--        <androidx.recyclerview.widget.RecyclerView-->
-        <!--            android:id="@+id/rv_ingredient"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginTop="10dp" />-->
-
-
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:gravity="center"-->
-<!--            android:orientation="vertical">-->
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -306,27 +298,25 @@
                     app:layout_constraintStart_toEndOf="@id/gl_v852"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-<!--        </LinearLayout>-->
 
+            <TextView
+                android:id="@+id/tv_direction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Directions"
+                android:textSize="24sp" />
 
-        <TextView
-            android:id="@+id/tv_direction"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Directions"
-            android:textSize="24sp" />
-
-        <!--        <androidx.recyclerview.widget.RecyclerView-->
-        <!--            android:id="@+id/rv_direction"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginTop="10dp" />-->
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:gravity="center"-->
-<!--            android:orientation="vertical">-->
+            <!--        <androidx.recyclerview.widget.RecyclerView-->
+            <!--            android:id="@+id/rv_direction"-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:layout_marginTop="10dp" />-->
+            <!--        <LinearLayout-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:gravity="center"-->
+            <!--            android:orientation="vertical">-->
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -399,7 +389,6 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-
                         />
 
                     <TextView
@@ -444,7 +433,6 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-
                         />
 
                     <TextView
@@ -466,14 +454,10 @@
                 android:id="@+id/bt_addstep"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
                 android:background="@drawable/circular_button_themecolor"
                 android:text="Add Step" />
-
-
-<!--        </LinearLayout>-->
-
-
-    </LinearLayout>
+        </LinearLayout>
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
