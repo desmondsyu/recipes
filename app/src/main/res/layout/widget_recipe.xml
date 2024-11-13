@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/banner"
+                android:src="@drawable/default_thumbnail"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -42,17 +42,22 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/iv_thumbnail" />
 
-            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-                android:id="@+id/bt_create"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <Button
+                android:id="@+id/bt_favorite"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_margin="8dp"
-                android:contentDescription="Add Recipe"
+                android:background="@drawable/circular_button_white"
+                android:contentDescription="Favorite"
                 android:onClick="favoriteClicked"
                 android:text="♥"
+                android:textSize="20sp"
                 android:textStyle="bold"
+                app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toEndOf="@id/iv_thumbnail"
-                app:layout_constraintTop_toTopOf="@id/iv_thumbnail" />
+                app:layout_constraintHeight_max="50dp"
+                app:layout_constraintTop_toTopOf="@id/iv_thumbnail"
+                app:layout_constraintWidth_max="50dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

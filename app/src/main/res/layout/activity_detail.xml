@@ -21,6 +21,7 @@
         android:layout_height="0dp"
         android:layout_margin="3dp"
         android:background="@drawable/circular_button_grey"
+        android:onClick="saveClicked"
         android:text="Save"
         app:layout_constraintBottom_toTopOf="@+id/gl_h10"
         app:layout_constraintRight_toLeftOf="@id/bt_favorite"
@@ -68,8 +69,9 @@
                 android:layout_height="200dp"
                 android:background="#f58742"
                 android:contentDescription="thumbnail"
+                android:onClick="thumbnailClicked"
                 android:scaleType="centerCrop"
-                android:src="@drawable/banner" />
+                android:src="@drawable/default_thumbnail" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_title"
@@ -154,8 +156,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.40"
-                    />
+                    app:layout_constraintGuide_percent="0.40" />
 
                 <EditText
                     android:id="@+id/et_ingredient1"
@@ -268,8 +269,8 @@
             <Button
                 android:id="@+id/bt_addingredients"
                 android:layout_width="match_parent"
-                android:layout_marginTop="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/circular_button_themecolor"
                 android:text="Add Indegredient" />
 

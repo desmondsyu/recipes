@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="planets_array">
+        <item>-</item>
+        <item>tsp</item>
+        <item>tbsp</item>
+        <item>cup</item>
+        <item>ml</item>
+        <item>l</item>
+        <item>oz</item>
+        <item>lb</item>
+        <item>g</item>
+        <item>kg</item>
+        <item>in</item>
+        <item>cm</item>
+    </string-array>
+</resources>
