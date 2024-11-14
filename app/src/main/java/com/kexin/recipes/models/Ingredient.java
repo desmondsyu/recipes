@@ -1,19 +1,29 @@
 package com.kexin.recipes.models;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Embedded;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class Ingredient {
+    @PrimaryKey(autoGenerate = true)
     private Integer id;
+
+    @ColumnInfo(name = "quantity")
     private String quantity;
+
+    @ColumnInfo(name = "unit")
     private String unit;
+
+    @ColumnInfo(name = "name")
     private String name;
 
-    public Ingredient() {
-    }
+    @ColumnInfo(name = "recipe_id")
+    private Integer recipeId;
 
-    public Ingredient(Integer id, String quantity, String unit, String name) {
-        this.id = id;
-        this.quantity = quantity;
-        this.unit = unit;
-        this.name = name;
+    public Ingredient() {
     }
 
     public Integer getId() {
@@ -46,5 +56,13 @@ public class Ingredient {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getRecipeId() {
+        return recipeId;
+    }
+
+    public void setRecipeId(Integer recipeId) {
+        this.recipeId = recipeId;
     }
 }

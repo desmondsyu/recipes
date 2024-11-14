@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kexin.recipes.R;
+import com.kexin.recipes.models.Ingredient;
 import com.kexin.recipes.models.Recipe;
 
 import java.util.List;

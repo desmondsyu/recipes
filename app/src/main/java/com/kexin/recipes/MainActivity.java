@@ -14,7 +14,6 @@ import androidx.room.Room;
 
 import com.kexin.recipes.adapter.RecipeAdapter;
 import com.kexin.recipes.dao.RecipeDAO;
-import com.kexin.recipes.dao.RecipeDAO_Impl;
 import com.kexin.recipes.db.AppDatabase;
 import com.kexin.recipes.models.Recipe;
 

@@ -5,65 +5,69 @@
     android:layout_height="wrap_content"
     android:layout_margin="3dp">
 
-    <NumberPicker
-        android:id="@+id/np_quantity1"
+    <EditText
+        android:id="@+id/tv_quantity"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:hint="0"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/gl_v101"
+        app:layout_constraintEnd_toStartOf="@id/gl_v20"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/gl_v101"
+        android:id="@+id/gl_v20"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.10" />
+        app:layout_constraintGuide_percent="0.15" />
 
     <Spinner
-        android:id="@+id/sp_unit1"
+        android:id="@+id/sp_unit"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:theme="@android:style/Theme.Holo.Light.DarkActionBar"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/gl_v401"
-        app:layout_constraintStart_toEndOf="@id/gl_v101"
+        app:layout_constraintEnd_toStartOf="@id/gl_v40"
+        app:layout_constraintStart_toEndOf="@id/gl_v20"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/gl_v401"
+        android:id="@+id/gl_v40"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.40" />
 
     <EditText
-        android:id="@+id/et_ingredient1"
+        android:id="@+id/et_ingredient"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:hint="Ingredient"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/gl_v851"
-        app:layout_constraintStart_toEndOf="@id/gl_v401"
+        app:layout_constraintEnd_toStartOf="@id/gl_v85"
+        app:layout_constraintStart_toEndOf="@id/gl_v40"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/gl_v851"
+        android:id="@+id/gl_v85"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.85" />
 
     <Button
-        android:id="@+id/bt_minus1"
+        android:id="@+id/bt_minus"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
         android:background="@drawable/circular_button_grey"
         android:text="-"
+        android:onClick="removeClicked"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/gl_v851"
+        app:layout_constraintStart_toEndOf="@id/gl_v85"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
