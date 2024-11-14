@@ -11,6 +11,7 @@ import androidx.room.Transaction;
 import com.kexin.recipes.models.Ingredient;
 import com.kexin.recipes.models.Recipe;
 import com.kexin.recipes.models.RecipeWithDetail;
+import com.kexin.recipes.models.Step;
 
 import java.util.List;
 
@@ -45,14 +46,21 @@ public interface RecipeDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertIngredients(List<Ingredient> ingredients);
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertSteps(List<Step> steps);
+
     @Transaction
-    default void insertRecipeWithIngredients(Recipe recipe, List<Ingredient> ingredients) {
+    default void insertRecipeWithIngredients(Recipe recipe, List<Ingredient> ingredients, List<Step> steps) {
         long recipeId = insertRecipe(recipe);
 
         for (Ingredient ingredient : ingredients) {
             ingredient.setRecipeId((int) recipeId);
         }
-
         insertIngredients(ingredients);
+
+        for (Step step : steps) {
+            step.setRecipeId((int) recipeId);
+        }
+        insertSteps(steps);
     }
 }

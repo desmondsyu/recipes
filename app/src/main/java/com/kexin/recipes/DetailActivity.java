@@ -15,9 +15,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import com.kexin.recipes.adapter.IngredientAdapter;
+import com.kexin.recipes.adapter.StepAdapter;
 import com.kexin.recipes.db.AppDatabase;
 import com.kexin.recipes.models.Ingredient;
 import com.kexin.recipes.models.Recipe;
+import com.kexin.recipes.models.Step;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,10 @@ public class DetailActivity extends AppCompatActivity {
     RecyclerView rv_ingredients;
     IngredientAdapter ingredientAdapter;
     List<Ingredient> ingredientList;
+
+    RecyclerView rv_steps;
+    StepAdapter stepAdapter;
+    List<Step> stepList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +69,13 @@ public class DetailActivity extends AppCompatActivity {
         ingredientAdapter = new IngredientAdapter(ingredientList);
         rv_ingredients.setAdapter(ingredientAdapter);
 
+        // handle steps
+        stepList = new ArrayList<>();
+        rv_steps = findViewById(R.id.rv_step);
+        rv_steps.setLayoutManager(new LinearLayoutManager(this));
+
+        stepAdapter = new StepAdapter(stepList);
+        rv_steps.setAdapter(stepAdapter);
 
     }
 
@@ -83,6 +96,7 @@ public class DetailActivity extends AppCompatActivity {
 
 
         List<Ingredient> ingredients = ingredientAdapter.getIngredients();
+        List<Step> steps = stepAdapter.getSteps();
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(new Runnable() {
@@ -91,7 +105,7 @@ public class DetailActivity extends AppCompatActivity {
                 AppDatabase db = Room.databaseBuilder(getApplicationContext(),
                         AppDatabase.class, "recipes").build();
 
-                db.recipeDao().insertRecipeWithIngredients(recipe, ingredients);
+                db.recipeDao().insertRecipeWithIngredients(recipe, ingredients, steps);
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -107,7 +121,7 @@ public class DetailActivity extends AppCompatActivity {
         });
     }
 
-    public void addNewIngredient (View view) {
+    public void addNewIngredient(View view) {
         Ingredient ingredient = new Ingredient();
         ingredient.setQuantity("");
 
@@ -115,11 +129,25 @@ public class DetailActivity extends AppCompatActivity {
         rv_ingredients.scrollToPosition(ingredientList.size() - 1);
     }
 
-    public void removeClicked(View view) {
+    public void removeIngredient(View view) {
         View parent = (View) view.getParent();
         int position = rv_ingredients.getChildAdapterPosition(parent);
         if (position != RecyclerView.NO_POSITION) {
             ingredientAdapter.removeIngredient(position);
+        }
+    }
+
+    public void addNewStep(View view) {
+        Step step = new Step();
+        stepAdapter.addStep(step);
+        rv_steps.scrollToPosition(stepList.size() - 1);
+    }
+
+    public void removeStep(View view) {
+        View parent = (View) view.getParent().getParent();
+        int position = rv_steps.getChildAdapterPosition(parent);
+        if (position != RecyclerView.NO_POSITION) {
+            stepAdapter.removeStep(position);
         }
     }
 }

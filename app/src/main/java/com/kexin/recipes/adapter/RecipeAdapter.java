@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,7 +29,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final ImageView ivThumbnail;
         private final TextView tvTitle;
-        private final Button btFavorite;
+        private final ImageButton btFavorite;
 
         public ViewHolder(View view) {
             super(view);
@@ -47,11 +48,11 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
                 ivThumbnail.setImageResource(R.drawable.default_thumbnail); // Set a default image if thumbnail is null
             }
 
-            btFavorite.setText(recipe.getIsFavorite() ? "♥" : "♡");
+            btFavorite.setImageResource(recipe.getIsFavorite() ? R.drawable.heart_true : R.drawable.heart_false);
 
             btFavorite.setOnClickListener(v -> {
                 recipe.setIsFavorite(!recipe.getIsFavorite());
-                btFavorite.setText(recipe.getIsFavorite() ? "♥" : "♡");
+                btFavorite.setImageResource(recipe.getIsFavorite() ? R.drawable.heart_true : R.drawable.heart_false);
             });
         }
     }

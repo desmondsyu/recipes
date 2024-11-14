@@ -13,9 +13,6 @@ public class Step {
     @ColumnInfo(name = "description")
     private String description;
 
-    @ColumnInfo(name = "order")
-    private Integer order;
-
     @ColumnInfo(name = "recipe_id")
     private Integer recipeId;
 
@@ -36,14 +33,6 @@ public class Step {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Integer getOrder() {
-        return order;
-    }
-
-    public void setOrder(Integer order) {
-        this.order = order;
     }
 
     public Integer getRecipeId() {
