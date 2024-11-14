@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.android.application)
-//    id("com.google.dagger.hilt.android")
     id("org.jetbrains.kotlin.kapt") version "1.8.22"
 }
 

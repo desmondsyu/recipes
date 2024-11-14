@@ -1,17 +1,25 @@
 package com.kexin.recipes.models;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Embedded;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class Step {
+    @PrimaryKey(autoGenerate = true)
     private Integer id;
+
+    @ColumnInfo(name = "description")
     private String description;
+
+    @ColumnInfo(name = "order")
     private Integer order;
 
-    public Step() {
-    }
+    @ColumnInfo(name = "recipe_id")
+    private Integer recipeId;
 
-    public Step(Integer id, String description, Integer order) {
-        this.id = id;
-        this.description = description;
-        this.order = order;
+    public Step() {
     }
 
     public Integer getId() {
@@ -36,5 +44,13 @@ public class Step {
 
     public void setOrder(Integer order) {
         this.order = order;
+    }
+
+    public Integer getRecipeId() {
+        return recipeId;
+    }
+
+    public void setRecipeId(Integer recipeId) {
+        this.recipeId = recipeId;
     }
 }

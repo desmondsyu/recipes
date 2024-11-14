@@ -10,11 +10,17 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import com.kexin.recipes.adapter.IngredientAdapter;
 import com.kexin.recipes.db.AppDatabase;
+import com.kexin.recipes.models.Ingredient;
 import com.kexin.recipes.models.Recipe;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -24,12 +30,17 @@ public class DetailActivity extends AppCompatActivity {
     ImageView iv_thumbnail;
     Boolean isFavorite;
 
+    RecyclerView rv_ingredients;
+    IngredientAdapter ingredientAdapter;
+    List<Ingredient> ingredientList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_detail);
 
+        // handle main data
         et_title = findViewById(R.id.et_title);
         sp_category = findViewById(R.id.sp_category);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
@@ -43,6 +54,16 @@ public class DetailActivity extends AppCompatActivity {
         iv_thumbnail = findViewById(R.id.iv_thumbnail);
 
         isFavorite = false;
+
+        // handle ingredients
+        ingredientList = new ArrayList<>();
+        rv_ingredients = findViewById(R.id.rv_ingredient);
+        rv_ingredients.setLayoutManager(new LinearLayoutManager(this));
+
+        ingredientAdapter = new IngredientAdapter(ingredientList);
+        rv_ingredients.setAdapter(ingredientAdapter);
+
+
     }
 
     public void saveClicked(View view) {
@@ -60,6 +81,9 @@ public class DetailActivity extends AppCompatActivity {
         recipe.setThumbnail(null);
         recipe.setIsFavorite(isFavorite);
 
+
+        List<Ingredient> ingredients = ingredientAdapter.getIngredients();
+
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(new Runnable() {
             @Override
@@ -67,7 +91,7 @@ public class DetailActivity extends AppCompatActivity {
                 AppDatabase db = Room.databaseBuilder(getApplicationContext(),
                         AppDatabase.class, "recipes").build();
 
-                db.recipeDao().insert(recipe);
+                db.recipeDao().insertRecipeWithIngredients(recipe, ingredients);
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -81,5 +105,21 @@ public class DetailActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    public void addNewIngredient (View view) {
+        Ingredient ingredient = new Ingredient();
+        ingredient.setQuantity("");
+
+        ingredientAdapter.addIngredient(ingredient);
+        rv_ingredients.scrollToPosition(ingredientList.size() - 1);
+    }
+
+    public void removeClicked(View view) {
+        View parent = (View) view.getParent();
+        int position = rv_ingredients.getChildAdapterPosition(parent);
+        if (position != RecyclerView.NO_POSITION) {
+            ingredientAdapter.removeIngredient(position);
+        }
     }
 }
