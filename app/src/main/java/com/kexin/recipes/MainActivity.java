@@ -5,8 +5,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.SearchView;
 
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -38,12 +40,35 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(recipeAdapter);
 
         SwitchCompat switchFavorites = findViewById(R.id.switch_favorites);
-        FilterFavorites(switchFavorites);
+        SearchView searchView = findViewById(R.id.sv_title);
+
+        searchRecipes(searchView);
+        filterFavorites(switchFavorites);
 
         new LoadRecipesTask().execute();
     }
 
-    private void FilterFavorites(SwitchCompat switchFavorites) {
+    private void searchRecipes(SearchView searchView) {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchRecipes(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                searchRecipes(newText);
+                return true;
+            }
+        });
+    }
+
+    private void searchRecipes(String query) {
+        new SearchRecipesTask().execute(query);
+    }
+
+    private void filterFavorites(@NonNull SwitchCompat switchFavorites) {
         switchFavorites.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> {
             if (isChecked) {
                 new LoadFavoriteRecipesTask().execute();
@@ -89,6 +114,23 @@ public class MainActivity extends AppCompatActivity {
             if (recipes == null) {
                 recipes = new ArrayList<>();
             }
+            recipeAdapter = new RecipeAdapter(recipes);
+            recyclerView.setAdapter(recipeAdapter);
+        }
+    }
+
+    private class SearchRecipesTask extends AsyncTask<String, Void, List<Recipe>> {
+        @Override
+        protected List<Recipe> doInBackground(String... strings) {
+            String query = strings[0];
+            AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                    AppDatabase.class, "recipes").build();
+            RecipeDAO recipeDAO = db.recipeDao();
+            return recipeDAO.searchRecipes(query);
+        }
+
+        @Override
+        protected void onPostExecute(List<Recipe> recipes) {
             recipeAdapter = new RecipeAdapter(recipes);
             recyclerView.setAdapter(recipeAdapter);
         }

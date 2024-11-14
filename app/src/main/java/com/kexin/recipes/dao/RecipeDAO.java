@@ -25,6 +25,11 @@ public interface RecipeDAO {
     @Query("SELECT * FROM Recipe WHERE title LIKE :title")
     List<Recipe> getByTitle(String title);
 
+    @Query("SELECT DISTINCT Recipe.* FROM Recipe " +
+            "LEFT JOIN Ingredient ON Recipe.id = Ingredient.recipe_id " +
+            "WHERE Recipe.title LIKE '%' || :query || '%' OR Ingredient.name LIKE '%' || :query || '%'")
+    List<Recipe> searchRecipes(String query);
+
     @Query("SELECT * FROM Recipe WHERE is_favorite = 1")
     List<Recipe> getByFavorite();
 
