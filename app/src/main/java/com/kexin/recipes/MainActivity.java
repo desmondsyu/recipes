@@ -1,7 +1,6 @@
 package com.kexin.recipes;
 
 import android.content.Intent;
-
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -19,7 +18,6 @@ import com.kexin.recipes.models.Recipe;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -63,4 +61,3 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, DetailActivity.class);
         startActivity(intent);
     }
-}

@@ -57,7 +57,6 @@ public class DetailActivity extends AppCompatActivity {
 
         // handle ingredients
         ingredientList = new ArrayList<>();
-        rv_ingredients = findViewById(R.id.rv_ingredient);
         rv_ingredients.setLayoutManager(new LinearLayoutManager(this));
 
         ingredientAdapter = new IngredientAdapter(ingredientList);
