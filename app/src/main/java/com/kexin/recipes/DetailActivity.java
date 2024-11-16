@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -31,6 +32,7 @@ public class DetailActivity extends AppCompatActivity {
     Spinner sp_category;
     ImageView iv_thumbnail;
     Boolean isFavorite;
+    ImageButton bt_favorite;
 
     RecyclerView rv_ingredients;
     IngredientAdapter ingredientAdapter;
@@ -77,6 +79,21 @@ public class DetailActivity extends AppCompatActivity {
         stepAdapter = new StepAdapter(stepList);
         rv_steps.setAdapter(stepAdapter);
 
+        //favorite button
+        bt_favorite = findViewById(R.id.bt_favorite);
+
+        bt_favorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isFavorite) {
+                    bt_favorite.setImageResource(R.drawable.heart_false);
+                    isFavorite = false;
+                } else {
+                    bt_favorite.setImageResource(R.drawable.heart_true);
+                    isFavorite = true;
+                }
+            }
+        });
     }
 
     public void saveClicked(View view) {
@@ -97,6 +114,9 @@ public class DetailActivity extends AppCompatActivity {
 
         List<Ingredient> ingredients = ingredientAdapter.getIngredients();
         List<Step> steps = stepAdapter.getSteps();
+
+        //Save to favorites if clicked:
+        isFavorite = bt_favorite.getDrawable().getConstantState().equals(getResources().getDrawable(R.drawable.heart_true).getConstantState());
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(new Runnable() {
