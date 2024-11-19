@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import java.util.HashMap;
 public class DetailActivity extends AppCompatActivity {
     EditText et_title;
     Spinner sp_category;
@@ -42,6 +43,7 @@ public class DetailActivity extends AppCompatActivity {
     StepAdapter stepAdapter;
     List<Step> stepList;
 
+    HashMap<String, Integer> categoryImageMap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +53,17 @@ public class DetailActivity extends AppCompatActivity {
         // handle main data
         et_title = findViewById(R.id.et_title);
         sp_category = findViewById(R.id.sp_category);
+        iv_thumbnail = findViewById(R.id.iv_thumbnail);
+        categoryImageMap = new HashMap<>();
+        categoryImageMap.put("Appetizer", R.drawable.appetizer);  // Replace with actual image resources
+        categoryImageMap.put("Beverage", R.drawable.beverage);
+        categoryImageMap.put("Breakfast", R.drawable.breakfast);
+        categoryImageMap.put("Dessert", R.drawable.dessert);
+        categoryImageMap.put("Main Course", R.drawable.main_course);
+        categoryImageMap.put("Sauce", R.drawable.sauce);
+        categoryImageMap.put("Side Dish", R.drawable.side_dish);
+        categoryImageMap.put("Snacks", R.drawable.snacks);
+        categoryImageMap.put("Soup", R.drawable.soup);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this,
                 R.array.category_array,
@@ -59,8 +72,24 @@ public class DetailActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp_category.setAdapter(adapter);
 
-        iv_thumbnail = findViewById(R.id.iv_thumbnail);
+        // Set default image for category
+        iv_thumbnail.setImageResource(R.drawable.default_thumbnail);  // Use a default image initially
 
+        sp_category.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(android.widget.AdapterView<?> parentView, View view, int position, long id) {
+                String selectedCategory = (String) parentView.getItemAtPosition(position);
+                if (categoryImageMap.containsKey(selectedCategory)) {
+                    iv_thumbnail.setImageResource(categoryImageMap.get(selectedCategory));
+                } else {
+                    iv_thumbnail.setImageResource(R.drawable.default_thumbnail);
+                }
+            }
+            @Override
+            public void onNothingSelected(android.widget.AdapterView<?> parentView) {
+                iv_thumbnail.setImageResource(R.drawable.default_thumbnail);
+            }
+        });
         isFavorite = false;
 
         // handle ingredients
