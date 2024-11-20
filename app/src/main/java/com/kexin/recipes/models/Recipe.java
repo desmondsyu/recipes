@@ -2,7 +2,10 @@ package com.kexin.recipes.models;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+
+import java.util.List;
 
 @Entity
 public class Recipe {
@@ -20,6 +23,12 @@ public class Recipe {
 
     @ColumnInfo(name = "is_favorite")
     private boolean isFavorite;
+
+    @Ignore
+    private List<Ingredient> ingredients;
+
+    @Ignore
+    private List<Step> steps;
 
     public Recipe() {
     }

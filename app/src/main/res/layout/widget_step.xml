@@ -42,20 +42,6 @@
             app:layout_constraintStart_toEndOf="@id/gl_v_85"
             app:layout_constraintTop_toTopOf="parent" />
 
-<!--        <Button-->
-<!--            android:id="@+id/bt_deleteStep"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_margin="2dp"-->
-<!--            android:background="@drawable/circular_button_grey"-->
-<!--            android:onClick="removeStep"-->
-<!--            android:text="-"-->
-<!--            app:layout_constraintBottom_toTopOf="@id/et_description"-->
-<!--            app:layout_constraintDimensionRatio="1:1"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toEndOf="@id/gl_v_85"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
-
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/gl_v_85"
             android:layout_width="wrap_content"

@@ -2,6 +2,7 @@ package com.kexin.recipes.adapter;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +13,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
+import com.kexin.recipes.MainActivity;
 import com.kexin.recipes.R;
+import com.kexin.recipes.dao.RecipeDAO;
+import com.kexin.recipes.db.AppDatabase;
 import com.kexin.recipes.models.Ingredient;
 import com.kexin.recipes.models.Recipe;
 
@@ -45,13 +50,14 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
                 Bitmap bitmap = BitmapFactory.decodeByteArray(recipe.getThumbnail(), 0, recipe.getThumbnail().length);
                 ivThumbnail.setImageBitmap(bitmap);
             } else {
-                ivThumbnail.setImageResource(R.drawable.default_thumbnail); // Set a default image if thumbnail is null
+                ivThumbnail.setImageResource(R.drawable.default_thumbnail);
             }
 
             btFavorite.setImageResource(recipe.getIsFavorite() ? R.drawable.heart_true : R.drawable.heart_false);
 
             btFavorite.setOnClickListener(v -> {
                 recipe.setIsFavorite(!recipe.getIsFavorite());
+
                 btFavorite.setImageResource(recipe.getIsFavorite() ? R.drawable.heart_true : R.drawable.heart_false);
             });
         }
@@ -75,4 +81,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
     public int getItemCount() {
         return recipeList.size();
     }
+
+
 }
