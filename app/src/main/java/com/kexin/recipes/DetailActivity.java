@@ -1,6 +1,9 @@
 package com.kexin.recipes;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -17,17 +20,21 @@ import androidx.room.Room;
 
 import com.kexin.recipes.adapter.IngredientAdapter;
 import com.kexin.recipes.adapter.StepAdapter;
+import com.kexin.recipes.dao.RecipeDAO;
 import com.kexin.recipes.db.AppDatabase;
 import com.kexin.recipes.models.Ingredient;
 import com.kexin.recipes.models.Recipe;
+import com.kexin.recipes.models.RecipeWithDetail;
 import com.kexin.recipes.models.Step;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import java.util.HashMap;
+
 public class DetailActivity extends AppCompatActivity {
     EditText et_title;
     Spinner sp_category;
@@ -44,6 +51,7 @@ public class DetailActivity extends AppCompatActivity {
     List<Step> stepList;
 
     HashMap<String, Integer> categoryImageMap;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +63,7 @@ public class DetailActivity extends AppCompatActivity {
         sp_category = findViewById(R.id.sp_category);
         iv_thumbnail = findViewById(R.id.iv_thumbnail);
         categoryImageMap = new HashMap<>();
-        categoryImageMap.put("Appetizer", R.drawable.appetizer);  // Replace with actual image resources
+        categoryImageMap.put("Appetizer", R.drawable.appetizer);
         categoryImageMap.put("Beverage", R.drawable.beverage);
         categoryImageMap.put("Breakfast", R.drawable.breakfast);
         categoryImageMap.put("Dessert", R.drawable.dessert);
@@ -73,7 +81,7 @@ public class DetailActivity extends AppCompatActivity {
         sp_category.setAdapter(adapter);
 
         // Set default image for category
-        iv_thumbnail.setImageResource(R.drawable.default_thumbnail);  // Use a default image initially
+        iv_thumbnail.setImageResource(R.drawable.default_thumbnail);
 
         sp_category.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
             @Override
@@ -85,6 +93,7 @@ public class DetailActivity extends AppCompatActivity {
                     iv_thumbnail.setImageResource(R.drawable.default_thumbnail);
                 }
             }
+
             @Override
             public void onNothingSelected(android.widget.AdapterView<?> parentView) {
                 iv_thumbnail.setImageResource(R.drawable.default_thumbnail);
@@ -134,12 +143,28 @@ public class DetailActivity extends AppCompatActivity {
             return;
         }
 
+        if (category.isEmpty()) {
+            Toast.makeText(this, "Please select a category", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        byte[] thumbnail = null;
+        if (iv_thumbnail.getDrawable() != null &&
+                iv_thumbnail.getDrawable().getConstantState() != getResources().getDrawable(R.drawable.default_thumbnail).getConstantState()) {
+
+            BitmapDrawable drawable = (BitmapDrawable) iv_thumbnail.getDrawable();
+            Bitmap bitmap = drawable.getBitmap();
+
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream); // Use PNG if preferred
+            thumbnail = stream.toByteArray();
+        }
+
         Recipe recipe = new Recipe();
         recipe.setTitle(title);
         recipe.setCategory(category);
-        recipe.setThumbnail(null);
+        recipe.setThumbnail(thumbnail);
         recipe.setIsFavorite(isFavorite);
-
 
         List<Ingredient> ingredients = ingredientAdapter.getIngredients();
         List<Step> steps = stepAdapter.getSteps();

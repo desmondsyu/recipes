@@ -7,6 +7,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
+import androidx.room.Update;
 
 import com.kexin.recipes.models.Ingredient;
 import com.kexin.recipes.models.Recipe;
@@ -63,4 +64,7 @@ public interface RecipeDAO {
         }
         insertSteps(steps);
     }
+
+    @Update
+    void update(Recipe recipe);
 }

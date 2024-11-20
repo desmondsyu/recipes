@@ -60,33 +60,16 @@
         android:id="@+id/btn_minus"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:padding="15dp"
         android:background="@color/white"
         android:contentDescription="trash button"
         android:onClick="removeIngredient"
+        android:padding="15dp"
         android:scaleType="centerInside"
         android:src="@drawable/trash_icon"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/gl_v85"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <!--    <Button-->
-    <!--        android:id="@+id/bt_minus"-->
-    <!--        android:layout_width="0dp"-->
-    <!--        android:layout_height="0dp"-->
-    <!--        android:layout_margin="2dp"-->
-    <!--        android:background="@drawable/circular_button_grey"-->
-    <!--        android:drawableStart="@drawable/trash_icon"-->
-    <!--        android:drawablePadding="0dp"-->
-    <!--        android:gravity="center"-->
-    <!--        android:onClick="removeIngredient"-->
-    <!--        android:padding="1dp"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintDimensionRatio="1:1"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toEndOf="@id/gl_v85"-->
-    <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
