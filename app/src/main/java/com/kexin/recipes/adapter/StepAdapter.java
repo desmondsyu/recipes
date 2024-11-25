@@ -77,4 +77,10 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
     public List<Step> getSteps() {
         return stepList;
     }
+
+    public void setSteps(List<Step> steps) {
+        stepList.clear();
+        stepList.addAll(steps);
+        notifyDataSetChanged();
+    }
 }

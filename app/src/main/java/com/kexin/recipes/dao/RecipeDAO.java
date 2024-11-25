@@ -67,4 +67,8 @@ public interface RecipeDAO {
 
     @Update
     void update(Recipe recipe);
+
+    @Transaction
+    @Query("SELECT * FROM recipe WHERE id = :recipeId")
+    RecipeWithDetail getRecipeWithDetails(long recipeId);
 }

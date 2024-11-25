@@ -111,4 +111,10 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
     public List<Ingredient> getIngredients() {
         return ingredientList;
     }
+
+    public void setIngredients(List<Ingredient> ingredients) {
+        ingredientList.clear();
+        ingredientList.addAll(ingredients);
+        notifyDataSetChanged();
+    }
 }

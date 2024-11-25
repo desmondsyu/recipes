@@ -99,6 +99,7 @@ public class DetailActivity extends AppCompatActivity {
                 iv_thumbnail.setImageResource(R.drawable.default_thumbnail);
             }
         });
+
         isFavorite = false;
 
         // handle ingredients

@@ -33,7 +33,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        recipeAdapter = new RecipeAdapter(new ArrayList<>());
+
+        AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "recipes").build();
+        RecipeDAO recipeDAO = db.recipeDao();
+
+        recipeAdapter = new RecipeAdapter(new ArrayList<>(), recipeDAO);
 
         recyclerView = findViewById(R.id.rcv_recipes);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -79,11 +83,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private class LoadRecipesTask extends AsyncTask<Void, Void, List<Recipe>> {
+        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                AppDatabase.class, "recipes").build();
 
         @Override
         protected List<Recipe> doInBackground(Void... voids) {
-            AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                    AppDatabase.class, "recipes").build();
+
             RecipeDAO recipeDAO = db.recipeDao();
             return recipeDAO.getAllRecipes();
         }
@@ -94,12 +99,17 @@ public class MainActivity extends AppCompatActivity {
             if (recipes == null) {
                 recipes = new ArrayList<>();
             }
-            recipeAdapter = new RecipeAdapter(recipes);
+            RecipeDAO recipeDAO = db.recipeDao();
+
+            recipeAdapter = new RecipeAdapter(recipes, recipeDAO);
             recyclerView.setAdapter(recipeAdapter);
         }
     }
 
     private class LoadFavoriteRecipesTask extends AsyncTask<Void, Void, List<Recipe>> {
+        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                AppDatabase.class, "recipes").build();
+
         @Override
         protected List<Recipe> doInBackground(Void... voids) {
             AppDatabase db = Room.databaseBuilder(getApplicationContext(),
@@ -110,28 +120,33 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(List<Recipe> recipes) {
+            RecipeDAO recipeDAO = db.recipeDao();
             super.onPostExecute(recipes);
             if (recipes == null) {
                 recipes = new ArrayList<>();
             }
-            recipeAdapter = new RecipeAdapter(recipes);
+            recipeAdapter = new RecipeAdapter(recipes, recipeDAO);
             recyclerView.setAdapter(recipeAdapter);
         }
     }
 
     private class SearchRecipesTask extends AsyncTask<String, Void, List<Recipe>> {
+        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                AppDatabase.class, "recipes").build();
+
         @Override
         protected List<Recipe> doInBackground(String... strings) {
             String query = strings[0];
-            AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                    AppDatabase.class, "recipes").build();
+
             RecipeDAO recipeDAO = db.recipeDao();
             return recipeDAO.searchRecipes(query);
         }
 
         @Override
         protected void onPostExecute(List<Recipe> recipes) {
-            recipeAdapter = new RecipeAdapter(recipes);
+            RecipeDAO recipeDAO = db.recipeDao();
+
+            recipeAdapter = new RecipeAdapter(recipes, recipeDAO);
             recyclerView.setAdapter(recipeAdapter);
         }
     }
@@ -140,4 +155,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, DetailActivity.class);
         startActivity(intent);
     }
+
+
 }
