@@ -92,6 +92,7 @@ public class DetailActivity extends AppCompatActivity {
 
         ingredientAdapter = new IngredientAdapter(ingredientList);
         rv_ingredients.setAdapter(ingredientAdapter);
+        ingredientAdapter.setEditMode(true);
 
         // handle steps
         stepList = new ArrayList<>();
@@ -100,6 +101,7 @@ public class DetailActivity extends AppCompatActivity {
 
         stepAdapter = new StepAdapter(stepList);
         rv_steps.setAdapter(stepAdapter);
+        stepAdapter.setEditMode(true);
 
         //favorite button
         bt_favorite = findViewById(R.id.bt_favorite);

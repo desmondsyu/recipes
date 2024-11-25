@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,25 +17,36 @@ import java.util.List;
 
 public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
     private final List<Step> stepList;
+    private boolean isEditMode = false;
 
     public StepAdapter(List<Step> stepList) {
         this.stepList = stepList;
     }
 
+    public void setEditMode(boolean isEditMode) {
+        this.isEditMode = isEditMode;
+        notifyDataSetChanged();
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvStep;
         private EditText etDescription;
+        private ImageButton btRemove;
 
         public ViewHolder(View view) {
             super(view);
             tvStep = view.findViewById(R.id.tv_step);
             etDescription = view.findViewById(R.id.et_description);
+            btRemove = view.findViewById(R.id.btn_minus);
         }
 
-        public void bind(Step step) {
+        public void bind(Step step, boolean isEditMode) {
             int position = getAdapterPosition();
             tvStep.setText("Step " + (position + 1));
             etDescription.setText(step.getDescription());
+
+            etDescription.setEnabled(isEditMode);
+            btRemove.setVisibility(isEditMode ? View.VISIBLE : View.GONE);
 
             etDescription.setOnFocusChangeListener((v, hasFocus) -> {
                 if (!hasFocus) {
@@ -55,7 +67,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Step step = stepList.get(position);
-        holder.bind(step);
+        holder.bind(step, isEditMode);
     }
 
     @Override

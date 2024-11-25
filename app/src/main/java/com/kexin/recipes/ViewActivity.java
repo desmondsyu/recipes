@@ -82,30 +82,12 @@ public class ViewActivity extends AppCompatActivity {
 
     private void initUI() {
         et_title = findViewById(R.id.et_title);
-        sp_category = findViewById(R.id.sp_category);
+        et_title.setEnabled(false);
+
         iv_thumbnail = findViewById(R.id.iv_thumbnail);
-        bt_favorite = findViewById(R.id.bt_favorite);
-        bt_edit_save = findViewById(R.id.bt_edit_save);
 
-        bt_addIngredient = findViewById(R.id.bt_addingredients);
-        bt_addStep = findViewById(R.id.bt_addstep);
-        bt_addIngredient.setVisibility(View.GONE);
-        bt_addStep.setVisibility(View.GONE);
-
-        rv_ingredients = findViewById(R.id.rv_ingredient);
-        rv_steps = findViewById(R.id.rv_step);
-        ingredientList = new ArrayList<>();
-        stepList = new ArrayList<>();
-
-        ingredientAdapter = new IngredientAdapter(ingredientList);
-        stepAdapter = new StepAdapter(stepList);
-
-        rv_ingredients.setLayoutManager(new LinearLayoutManager(this));
-        rv_steps.setLayoutManager(new LinearLayoutManager(this));
-
-        rv_ingredients.setAdapter(ingredientAdapter);
-        rv_steps.setAdapter(stepAdapter);
-
+        sp_category = findViewById(R.id.sp_category);
+        sp_category.setEnabled(false);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this,
                 R.array.category_array,
@@ -127,6 +109,27 @@ public class ViewActivity extends AppCompatActivity {
                 ThumbnailUtils.setCategoryThumbnail(iv_thumbnail, null);
             }
         });
+
+        bt_favorite = findViewById(R.id.bt_favorite);
+        bt_edit_save = findViewById(R.id.bt_edit_save);
+
+        bt_addIngredient = findViewById(R.id.bt_addingredients);
+        bt_addIngredient.setVisibility(View.GONE);
+        rv_ingredients = findViewById(R.id.rv_ingredient);
+        ingredientList = new ArrayList<>();
+        ingredientAdapter = new IngredientAdapter(ingredientList);
+        ingredientAdapter.setEditMode(false);
+        rv_ingredients.setLayoutManager(new LinearLayoutManager(this));
+        rv_ingredients.setAdapter(ingredientAdapter);
+
+        bt_addStep = findViewById(R.id.bt_addstep);
+        bt_addStep.setVisibility(View.GONE);
+        rv_steps = findViewById(R.id.rv_step);
+        stepList = new ArrayList<>();
+        stepAdapter = new StepAdapter(stepList);
+        stepAdapter.setEditMode(false);
+        rv_steps.setLayoutManager(new LinearLayoutManager(this));
+        rv_steps.setAdapter(stepAdapter);
     }
 
     private void setupCategorySpinner() {
@@ -183,6 +186,9 @@ public class ViewActivity extends AppCompatActivity {
         bt_addIngredient.setVisibility(View.VISIBLE);
         bt_addStep.setVisibility(View.VISIBLE);
         bt_edit_save.setText("SAVE");
+
+        ingredientAdapter.setEditMode(true);
+        stepAdapter.setEditMode(true);
     }
 
     private void saveRecipeUpdates() {

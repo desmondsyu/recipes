@@ -4,7 +4,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
@@ -17,15 +19,22 @@ import java.util.List;
 
 public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.ViewHolder> {
     private final List<Ingredient> ingredientList;
+    private boolean isEditMode = false;
 
     public IngredientAdapter(List<Ingredient> ingredientList) {
         this.ingredientList = ingredientList;
+    }
+
+    public void setEditMode(boolean isEditMode) {
+        this.isEditMode = isEditMode;
+        notifyDataSetChanged();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private EditText tvQuantity;
         private Spinner spUnit;
         private EditText etIngredient;
+        private ImageButton btRemove;
 
         public ViewHolder(View view) {
             super(view);
@@ -39,9 +48,10 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spUnit.setAdapter(adapter);
             etIngredient = view.findViewById(R.id.et_ingredient);
+            btRemove = view.findViewById(R.id.btn_minus);
         }
 
-        public void bind(Ingredient ingredient) {
+        public void bind(Ingredient ingredient, boolean isEditMode) {
             tvQuantity.setText(String.valueOf(ingredient.getQuantity()));
             etIngredient.setText(ingredient.getName());
 
@@ -50,6 +60,11 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
             if (position >= 0) {
                 spUnit.setSelection(position);
             }
+
+            tvQuantity.setEnabled(isEditMode);
+            etIngredient.setEnabled(isEditMode);
+            spUnit.setEnabled(isEditMode);
+            btRemove.setVisibility(isEditMode ? View.VISIBLE : View.GONE);
 
             tvQuantity.setOnFocusChangeListener((v, hasFocus) -> {
                 if (!hasFocus) {
@@ -87,7 +102,7 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Ingredient ingredient = ingredientList.get(position);
-        holder.bind(ingredient);
+        holder.bind(ingredient, isEditMode);
     }
 
     @Override
