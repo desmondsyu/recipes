@@ -18,28 +18,20 @@ import java.util.List;
 
 @Dao
 public interface RecipeDAO {
-    @Query("SELECT * FROM Recipe")
+    @Query("SELECT * FROM Recipe ORDER BY id DESC")
     List<Recipe> getAllRecipes();
-
-    @Query("SELECT * FROM Recipe WHERE id = :id")
-    Recipe getById(int id);
-
-    @Query("SELECT * FROM Recipe WHERE title LIKE :title")
-    List<Recipe> getByTitle(String title);
 
     @Query("SELECT DISTINCT Recipe.* FROM Recipe " +
             "LEFT JOIN Ingredient ON Recipe.id = Ingredient.recipe_id " +
-            "WHERE Recipe.title LIKE '%' || :query || '%' OR Ingredient.name LIKE '%' || :query || '%'")
+            "WHERE Recipe.title LIKE '%' || :query || '%' OR Ingredient.name LIKE '%' || :query || '%'" +
+            "ORDER BY Recipe.id DESC")
     List<Recipe> searchRecipes(String query);
 
-    @Query("SELECT * FROM Recipe WHERE is_favorite = 1")
+    @Query("SELECT * FROM Recipe WHERE is_favorite = 1 ORDER BY id DESC")
     List<Recipe> getByFavorite();
 
-    @Insert
-    void insert(Recipe recipe);
-
-    @Delete
-    void delete(Recipe recipe);
+//    @Delete
+//    void delete(Recipe recipe);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insertRecipe(Recipe recipe);
@@ -67,6 +59,25 @@ public interface RecipeDAO {
 
     @Update
     void update(Recipe recipe);
+
+    @Update
+    void updateIngredient(Ingredient ingredient);
+
+    @Update
+    void updateStep(Step step);
+
+    @Transaction
+    default void updateRecipeWithDetails(RecipeWithDetail recipeDetails) {
+        update(recipeDetails.recipe);
+
+        for (Ingredient ingredient : recipeDetails.ingredients) {
+            updateIngredient(ingredient);
+        }
+
+        for (Step step : recipeDetails.steps) {
+            updateStep(step);
+        }
+    }
 
     @Transaction
     @Query("SELECT * FROM recipe WHERE id = :recipeId")

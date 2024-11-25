@@ -8,7 +8,7 @@ import com.kexin.recipes.models.Ingredient;
 import com.kexin.recipes.models.Recipe;
 import com.kexin.recipes.models.Step;
 
-@Database(entities = {Recipe.class, Ingredient.class, Step.class}, version = 1)
+@Database(entities = {Recipe.class, Ingredient.class, Step.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract RecipeDAO recipeDao();
 }
