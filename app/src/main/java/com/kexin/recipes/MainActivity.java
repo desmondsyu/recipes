@@ -13,12 +13,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
 import com.kexin.recipes.adapter.RecipeAdapter;
 import com.kexin.recipes.dao.RecipeDAO;
 import com.kexin.recipes.db.AppDatabase;
 import com.kexin.recipes.models.Recipe;
+import com.kexin.recipes.singleton.AppDatabaseInstance;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "recipes").build();
+        AppDatabase db = AppDatabaseInstance.getInstance(getApplicationContext());
         RecipeDAO recipeDAO = db.recipeDao();
 
         recipeAdapter = new RecipeAdapter(new ArrayList<>(), recipeDAO);
@@ -83,8 +83,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private class LoadRecipesTask extends AsyncTask<Void, Void, List<Recipe>> {
-        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                AppDatabase.class, "recipes").build();
+        AppDatabase db = AppDatabaseInstance.getInstance(getApplicationContext());
 
         @Override
         protected List<Recipe> doInBackground(Void... voids) {
@@ -107,13 +106,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private class LoadFavoriteRecipesTask extends AsyncTask<Void, Void, List<Recipe>> {
-        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                AppDatabase.class, "recipes").build();
+        AppDatabase db = AppDatabaseInstance.getInstance(getApplicationContext());
 
         @Override
         protected List<Recipe> doInBackground(Void... voids) {
-            AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                    AppDatabase.class, "recipes").build();
+            AppDatabase db = AppDatabaseInstance.getInstance(getApplicationContext());
+
             RecipeDAO recipeDAO = db.recipeDao();
             return recipeDAO.getByFavorite();
         }
@@ -131,8 +129,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private class SearchRecipesTask extends AsyncTask<String, Void, List<Recipe>> {
-        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                AppDatabase.class, "recipes").build();
+        AppDatabase db = AppDatabaseInstance.getInstance(getApplicationContext());
 
         @Override
         protected List<Recipe> doInBackground(String... strings) {

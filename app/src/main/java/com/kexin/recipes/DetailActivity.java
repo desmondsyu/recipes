@@ -3,7 +3,6 @@ package com.kexin.recipes;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -16,16 +15,15 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
 import com.kexin.recipes.adapter.IngredientAdapter;
 import com.kexin.recipes.adapter.StepAdapter;
-import com.kexin.recipes.dao.RecipeDAO;
 import com.kexin.recipes.db.AppDatabase;
 import com.kexin.recipes.models.Ingredient;
 import com.kexin.recipes.models.Recipe;
-import com.kexin.recipes.models.RecipeWithDetail;
 import com.kexin.recipes.models.Step;
+import com.kexin.recipes.singleton.AppDatabaseInstance;
+import com.kexin.recipes.utils.ThumbnailUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -62,16 +60,7 @@ public class DetailActivity extends AppCompatActivity {
         et_title = findViewById(R.id.et_title);
         sp_category = findViewById(R.id.sp_category);
         iv_thumbnail = findViewById(R.id.iv_thumbnail);
-        categoryImageMap = new HashMap<>();
-        categoryImageMap.put("Appetizer", R.drawable.appetizer);
-        categoryImageMap.put("Beverage", R.drawable.beverage);
-        categoryImageMap.put("Breakfast", R.drawable.breakfast);
-        categoryImageMap.put("Dessert", R.drawable.dessert);
-        categoryImageMap.put("Main Course", R.drawable.main_course);
-        categoryImageMap.put("Sauce", R.drawable.sauce);
-        categoryImageMap.put("Side Dish", R.drawable.side_dish);
-        categoryImageMap.put("Snacks", R.drawable.snacks);
-        categoryImageMap.put("Soup", R.drawable.soup);
+
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this,
                 R.array.category_array,
@@ -80,23 +69,17 @@ public class DetailActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp_category.setAdapter(adapter);
 
-        // Set default image for category
-        iv_thumbnail.setImageResource(R.drawable.default_thumbnail);
-
+        ThumbnailUtils.setCategoryThumbnail(iv_thumbnail, null);
         sp_category.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(android.widget.AdapterView<?> parentView, View view, int position, long id) {
                 String selectedCategory = (String) parentView.getItemAtPosition(position);
-                if (categoryImageMap.containsKey(selectedCategory)) {
-                    iv_thumbnail.setImageResource(categoryImageMap.get(selectedCategory));
-                } else {
-                    iv_thumbnail.setImageResource(R.drawable.default_thumbnail);
-                }
+                ThumbnailUtils.setCategoryThumbnail(iv_thumbnail, selectedCategory);
             }
 
             @Override
             public void onNothingSelected(android.widget.AdapterView<?> parentView) {
-                iv_thumbnail.setImageResource(R.drawable.default_thumbnail);
+                ThumbnailUtils.setCategoryThumbnail(iv_thumbnail, null);
             }
         });
 
@@ -149,6 +132,10 @@ public class DetailActivity extends AppCompatActivity {
             return;
         }
 
+        if (!validateRecipe()) {
+            return;
+        }
+
         byte[] thumbnail = null;
         if (iv_thumbnail.getDrawable() != null &&
                 iv_thumbnail.getDrawable().getConstantState() != getResources().getDrawable(R.drawable.default_thumbnail).getConstantState()) {
@@ -177,8 +164,7 @@ public class DetailActivity extends AppCompatActivity {
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                        AppDatabase.class, "recipes").build();
+                AppDatabase db = AppDatabaseInstance.getInstance(getApplicationContext());
 
                 db.recipeDao().insertRecipeWithIngredients(recipe, ingredients, steps);
 
@@ -224,5 +210,21 @@ public class DetailActivity extends AppCompatActivity {
         if (position != RecyclerView.NO_POSITION) {
             stepAdapter.removeStep(position);
         }
+    }
+
+    private boolean validateRecipe() {
+        if (et_title.getText().toString().trim().isEmpty()) {
+            et_title.setError("Title cannot be empty");
+            return false;
+        }
+        if (ingredientAdapter.getIngredients().isEmpty()) {
+            Toast.makeText(this, "Add at least one ingredient", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (stepAdapter.getSteps().isEmpty()) {
+            Toast.makeText(this, "Add at least one step", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 }

@@ -8,22 +8,16 @@ import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
-import com.kexin.recipes.DetailActivity;
-import com.kexin.recipes.MainActivity;
 import com.kexin.recipes.R;
 import com.kexin.recipes.ViewActivity;
 import com.kexin.recipes.dao.RecipeDAO;
-import com.kexin.recipes.db.AppDatabase;
-import com.kexin.recipes.models.Ingredient;
 import com.kexin.recipes.models.Recipe;
 
 import java.util.List;

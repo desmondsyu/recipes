@@ -82,4 +82,28 @@ public interface RecipeDAO {
     @Transaction
     @Query("SELECT * FROM recipe WHERE id = :recipeId")
     RecipeWithDetail getRecipeWithDetails(long recipeId);
+
+    @Query("DELETE FROM Ingredient WHERE recipe_id = :recipeId")
+    void deleteIngredientsByRecipeId(long recipeId);
+
+    @Query("DELETE FROM Step WHERE recipe_id = :recipeId")
+    void deleteStepsByRecipeId(long recipeId);
+
+    @Transaction
+    default void updateRecipeAndReplaceDetails(Recipe recipe, List<Ingredient> ingredients, List<Step> steps) {
+        update(recipe);
+
+        deleteIngredientsByRecipeId(recipe.getId());
+        deleteStepsByRecipeId(recipe.getId());
+
+        for (Ingredient ingredient : ingredients) {
+            ingredient.setRecipeId((int) recipe.getId());
+        }
+        insertIngredients(ingredients);
+
+        for (Step step : steps) {
+            step.setRecipeId((int) recipe.getId());
+        }
+        insertSteps(steps);
+    }
 }

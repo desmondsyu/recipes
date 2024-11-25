@@ -17,7 +17,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
 import com.kexin.recipes.adapter.IngredientAdapter;
 import com.kexin.recipes.adapter.StepAdapter;
@@ -26,15 +25,18 @@ import com.kexin.recipes.models.Ingredient;
 import com.kexin.recipes.models.Recipe;
 import com.kexin.recipes.models.RecipeWithDetail;
 import com.kexin.recipes.models.Step;
+import com.kexin.recipes.singleton.AppDatabaseInstance;
+import com.kexin.recipes.utils.ThumbnailUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ViewActivity extends AppCompatActivity {
+    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
+
     EditText et_title;
     Spinner sp_category;
     ImageView iv_thumbnail;
@@ -60,20 +62,30 @@ public class ViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view);
 
+        initUI();
+        setupCategorySpinner();
+        handleFavoriteButton();
+
+        long recipeId = getIntent().getIntExtra("id", -1);
+        if (recipeId != -1) {
+            loadRecipeDetails(recipeId);
+        }
+
+        bt_edit_save.setOnClickListener(v -> {
+            if (isEditMode) {
+                saveRecipeUpdates();
+            } else {
+                enableEditMode();
+            }
+        });
+    }
+
+    private void initUI() {
         et_title = findViewById(R.id.et_title);
         sp_category = findViewById(R.id.sp_category);
         iv_thumbnail = findViewById(R.id.iv_thumbnail);
         bt_favorite = findViewById(R.id.bt_favorite);
         bt_edit_save = findViewById(R.id.bt_edit_save);
-
-        sp_category = findViewById(R.id.sp_category);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                this,
-                R.array.category_array,
-                android.R.layout.simple_spinner_item
-        );
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sp_category.setAdapter(adapter);
 
         bt_addIngredient = findViewById(R.id.bt_addingredients);
         bt_addStep = findViewById(R.id.bt_addstep);
@@ -94,19 +106,25 @@ public class ViewActivity extends AppCompatActivity {
         rv_ingredients.setAdapter(ingredientAdapter);
         rv_steps.setAdapter(stepAdapter);
 
-        setupCategorySpinner();
-        handleFavoriteButton();
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this,
+                R.array.category_array,
+                android.R.layout.simple_spinner_item
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sp_category.setAdapter(adapter);
 
-        long recipeId = getIntent().getIntExtra("id", -1);
-        if (recipeId != -1) {
-            loadRecipeDetails(recipeId);
-        }
+        ThumbnailUtils.setCategoryThumbnail(iv_thumbnail, null);
+        sp_category.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(android.widget.AdapterView<?> parentView, View view, int position, long id) {
+                String selectedCategory = (String) parentView.getItemAtPosition(position);
+                ThumbnailUtils.setCategoryThumbnail(iv_thumbnail, selectedCategory);
+            }
 
-        bt_edit_save.setOnClickListener(v -> {
-            if (isEditMode) {
-                saveRecipeUpdates();
-            } else {
-                enableEditMode();
+            @Override
+            public void onNothingSelected(android.widget.AdapterView<?> parentView) {
+                ThumbnailUtils.setCategoryThumbnail(iv_thumbnail, null);
             }
         });
     }
@@ -129,9 +147,8 @@ public class ViewActivity extends AppCompatActivity {
     }
 
     private void loadRecipeDetails(long recipeId) {
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.execute(() -> {
-            AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "recipes").build();
+        executorService.execute(() -> {
+            AppDatabase db = AppDatabaseInstance.getInstance(getApplicationContext());
             recipeDetails = db.recipeDao().getRecipeWithDetails(recipeId);
 
             runOnUiThread(() -> {
@@ -177,6 +194,10 @@ public class ViewActivity extends AppCompatActivity {
             return;
         }
 
+        if (!validateRecipe()) {
+            return;
+        }
+
         byte[] thumbnail = null;
         if (iv_thumbnail.getDrawable() != null) {
             BitmapDrawable drawable = (BitmapDrawable) iv_thumbnail.getDrawable();
@@ -191,16 +212,13 @@ public class ViewActivity extends AppCompatActivity {
         recipeDetails.recipe.setThumbnail(thumbnail);
         recipeDetails.recipe.setIsFavorite(isFavorite);
 
-        recipeDetails.ingredients.clear();
-        recipeDetails.ingredients.addAll(ingredientAdapter.getIngredients());
+        List<Ingredient> updatedIngredients = ingredientAdapter.getIngredients();
+        List<Step> updatedSteps = stepAdapter.getSteps();
 
-        recipeDetails.steps.clear();
-        recipeDetails.steps.addAll(stepAdapter.getSteps());
+        executorService.execute(() -> {
+            AppDatabase db = AppDatabaseInstance.getInstance(getApplicationContext());
 
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.execute(() -> {
-            AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "recipes").build();
-            db.recipeDao().updateRecipeWithDetails(recipeDetails);
+            db.recipeDao().updateRecipeAndReplaceDetails(recipeDetails.recipe, updatedIngredients, updatedSteps);
 
             runOnUiThread(() -> {
                 isEditMode = false;
@@ -213,5 +231,51 @@ public class ViewActivity extends AppCompatActivity {
                 Toast.makeText(ViewActivity.this, "Recipe updated successfully", Toast.LENGTH_SHORT).show();
             });
         });
+    }
+
+    public void addNewIngredient(View view) {
+        Ingredient ingredient = new Ingredient();
+        ingredient.setQuantity("");
+
+        ingredientAdapter.addIngredient(ingredient);
+        rv_ingredients.scrollToPosition(ingredientList.size() - 1);
+    }
+
+    public void removeIngredient(View view) {
+        View parent = (View) view.getParent();
+        int position = rv_ingredients.getChildAdapterPosition(parent);
+        if (position != RecyclerView.NO_POSITION) {
+            ingredientAdapter.removeIngredient(position);
+        }
+    }
+
+    public void addNewStep(View view) {
+        Step step = new Step();
+        stepAdapter.addStep(step);
+        rv_steps.scrollToPosition(stepList.size() - 1);
+    }
+
+    public void removeStep(View view) {
+        View parent = (View) view.getParent().getParent();
+        int position = rv_steps.getChildAdapterPosition(parent);
+        if (position != RecyclerView.NO_POSITION) {
+            stepAdapter.removeStep(position);
+        }
+    }
+
+    private boolean validateRecipe() {
+        if (et_title.getText().toString().trim().isEmpty()) {
+            et_title.setError("Title cannot be empty");
+            return false;
+        }
+        if (ingredientAdapter.getIngredients().isEmpty()) {
+            Toast.makeText(this, "Add at least one ingredient", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (stepAdapter.getSteps().isEmpty()) {
+            Toast.makeText(this, "Add at least one step", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 }
