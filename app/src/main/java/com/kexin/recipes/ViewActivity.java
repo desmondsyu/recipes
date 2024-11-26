@@ -233,7 +233,8 @@ public class ViewActivity extends AppCompatActivity {
                 bt_addIngredient.setVisibility(View.GONE);
                 bt_addStep.setVisibility(View.GONE);
                 bt_edit_save.setText("EDIT");
-
+                ingredientAdapter.setEditMode(false);
+                stepAdapter.setEditMode(false);
                 Toast.makeText(ViewActivity.this, "Recipe updated successfully", Toast.LENGTH_SHORT).show();
             });
         });
