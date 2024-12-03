@@ -68,6 +68,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        new LoadRecipesTask().execute(); // Reload all recipes
+    }
+
     private void searchRecipes(String query) {
         new SearchRecipesTask().execute(query);
     }
