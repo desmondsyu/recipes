@@ -121,6 +121,11 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     public void saveClicked(View view) {
+        rv_ingredients.clearFocus();
+        rv_steps.clearFocus();
+        et_title.clearFocus();
+        sp_category.clearFocus();
+
         String title = et_title.getText().toString();
         String category = sp_category.getSelectedItem().toString();
 

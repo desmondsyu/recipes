@@ -56,6 +56,8 @@
             android:layout_marginTop="4dp"
             android:hint="Description..."
             android:textSize="20sp"
+            android:textColor="@drawable/edit_text_selector"
+            android:theme="@android:style/Theme.Holo.Light.DarkActionBar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

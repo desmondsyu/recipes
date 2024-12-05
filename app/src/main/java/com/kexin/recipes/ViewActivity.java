@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -95,6 +96,14 @@ public class ViewActivity extends AppCompatActivity {
         );
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp_category.setAdapter(adapter);
+
+        sp_category.post(() -> {
+            TextView selectedView = (TextView) sp_category.getSelectedView();
+            if (selectedView != null) {
+                int colorResId = sp_category.isEnabled() ? R.color.enabled_color : R.color.disabled_color;
+                selectedView.setTextColor(getResources().getColor(colorResId));
+            }
+        });
 
         ThumbnailUtils.setCategoryThumbnail(iv_thumbnail, null);
         sp_category.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
@@ -192,6 +201,11 @@ public class ViewActivity extends AppCompatActivity {
     }
 
     private void saveRecipeUpdates() {
+        rv_ingredients.clearFocus();
+        rv_steps.clearFocus();
+        et_title.clearFocus();
+        sp_category.clearFocus();
+
         String title = et_title.getText().toString();
         String category = sp_category.getSelectedItem().toString();
 
@@ -249,10 +263,12 @@ public class ViewActivity extends AppCompatActivity {
     }
 
     public void removeIngredient(View view) {
-        View parent = (View) view.getParent();
-        int position = rv_ingredients.getChildAdapterPosition(parent);
-        if (position != RecyclerView.NO_POSITION) {
-            ingredientAdapter.removeIngredient(position);
+        RecyclerView.ViewHolder viewHolder = rv_ingredients.findContainingViewHolder(view);
+        if (viewHolder != null) {
+            int position = viewHolder.getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+                ingredientAdapter.removeIngredient(position);
+            }
         }
     }
 
@@ -263,10 +279,12 @@ public class ViewActivity extends AppCompatActivity {
     }
 
     public void removeStep(View view) {
-        View parent = (View) view.getParent().getParent();
-        int position = rv_steps.getChildAdapterPosition(parent);
-        if (position != RecyclerView.NO_POSITION) {
-            stepAdapter.removeStep(position);
+        RecyclerView.ViewHolder viewHolder = rv_steps.findContainingViewHolder(view);
+        if (viewHolder != null) {
+            int position = viewHolder.getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+                stepAdapter.removeStep(position);
+            }
         }
     }
 
