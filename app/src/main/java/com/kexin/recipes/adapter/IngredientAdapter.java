@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -65,6 +66,14 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
             etIngredient.setEnabled(isEditMode);
             spUnit.setEnabled(isEditMode);
             btRemove.setVisibility(isEditMode ? View.VISIBLE : View.GONE);
+
+            spUnit.post(() -> {
+                TextView selectedView = (TextView) spUnit.getSelectedView();
+                if (selectedView != null) {
+                    int colorResId = isEditMode ? R.color.enabled_color : R.color.disabled_color;
+                    selectedView.setTextColor(selectedView.getContext().getResources().getColor(colorResId));
+                }
+            });
 
             tvQuantity.setOnFocusChangeListener((v, hasFocus) -> {
                 if (!hasFocus) {

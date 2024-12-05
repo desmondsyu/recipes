@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -95,6 +96,14 @@ public class ViewActivity extends AppCompatActivity {
         );
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp_category.setAdapter(adapter);
+
+        sp_category.post(() -> {
+            TextView selectedView = (TextView) sp_category.getSelectedView();
+            if (selectedView != null) {
+                int colorResId = sp_category.isEnabled() ? R.color.enabled_color : R.color.disabled_color;
+                selectedView.setTextColor(getResources().getColor(colorResId));
+            }
+        });
 
         ThumbnailUtils.setCategoryThumbnail(iv_thumbnail, null);
         sp_category.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
