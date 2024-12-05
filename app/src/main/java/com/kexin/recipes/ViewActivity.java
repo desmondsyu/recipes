@@ -201,6 +201,11 @@ public class ViewActivity extends AppCompatActivity {
     }
 
     private void saveRecipeUpdates() {
+        rv_ingredients.clearFocus();
+        rv_steps.clearFocus();
+        et_title.clearFocus();
+        sp_category.clearFocus();
+
         String title = et_title.getText().toString();
         String category = sp_category.getSelectedItem().toString();
 
@@ -258,10 +263,12 @@ public class ViewActivity extends AppCompatActivity {
     }
 
     public void removeIngredient(View view) {
-        View parent = (View) view.getParent();
-        int position = rv_ingredients.getChildAdapterPosition(parent);
-        if (position != RecyclerView.NO_POSITION) {
-            ingredientAdapter.removeIngredient(position);
+        RecyclerView.ViewHolder viewHolder = rv_ingredients.findContainingViewHolder(view);
+        if (viewHolder != null) {
+            int position = viewHolder.getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+                ingredientAdapter.removeIngredient(position);
+            }
         }
     }
 
@@ -272,10 +279,12 @@ public class ViewActivity extends AppCompatActivity {
     }
 
     public void removeStep(View view) {
-        View parent = (View) view.getParent().getParent();
-        int position = rv_steps.getChildAdapterPosition(parent);
-        if (position != RecyclerView.NO_POSITION) {
-            stepAdapter.removeStep(position);
+        RecyclerView.ViewHolder viewHolder = rv_steps.findContainingViewHolder(view);
+        if (viewHolder != null) {
+            int position = viewHolder.getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+                stepAdapter.removeStep(position);
+            }
         }
     }
 
