@@ -86,6 +86,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Recipe Title"
                     android:textSize="24sp"
+                    android:theme="@android:style/Theme.Holo.Light.DarkActionBar"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/sp_category"
                     app:layout_constraintStart_toStartOf="parent"
